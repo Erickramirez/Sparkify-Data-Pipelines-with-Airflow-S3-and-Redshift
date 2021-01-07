@@ -13,6 +13,13 @@ class LoadFactOperator(BaseOperator):
                  sql_script,
                  truncate_table,
                  *args, **kwargs):
+        """
+        Load data into Fact table table from the staging tables
+        :param conn_id: connection to specific database (in this case redshift)
+        :param table_name: table name of the fact table to work on
+        :param sql_script:  select script related to the table (check plugins/helpers/sql_queries.py)
+        :param truncate_table: boolean to check if it has delete-load functionality (True value) or  append-only (False value)
+        """
 
         super(LoadFactOperator, self).__init__(*args, **kwargs)
         self.conn_id = conn_id
@@ -21,6 +28,9 @@ class LoadFactOperator(BaseOperator):
         self.truncate_table = truncate_table
 
     def execute(self, context):
+        """
+        Perform load operation into the fact table
+        """
         self.log.info(f"LoadFactOperator-->{self.table_name} - Begin")
         # connect to Redshift
         redshift_hook = PostgresHook(postgres_conn_id=self.conn_id)

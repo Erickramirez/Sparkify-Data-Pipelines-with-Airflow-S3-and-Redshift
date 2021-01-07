@@ -17,7 +17,11 @@ TRUNCATE_TABLE =  Variable.get("truncate_tables")
 REDSHIFT_CONN_ID = 'redshift'
 
 def str_to_bool(string):
-  return string.lower() in ("yes", "true", "t", "1")
+    """
+    :param string: string to evaluate
+    :return: boolean True if the parameter is one of the following elements
+    """
+    return string.lower() in ("yes", "true", "t", "1")
 
 default_args = {
                 'owner': 'udacity',
@@ -132,7 +136,7 @@ run_quality_checks = DataQualityOperator(
     dag=dag,
     provide_context=True,
     conn_id=REDSHIFT_CONN_ID,
-    tables=['songplays', 'songs', 'artists', 'users', 'times']
+    tables=['songplays', 'songs', 'artists', 'users', 'time']
 )
 
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)

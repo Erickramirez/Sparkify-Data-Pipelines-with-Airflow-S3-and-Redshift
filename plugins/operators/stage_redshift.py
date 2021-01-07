@@ -16,6 +16,17 @@ class StageToRedshiftOperator(BaseOperator):
                  region,
                  copy_json_option= 'auto',
                  *args, **kwargs):
+        """
+
+        :param conn_id:  connection to specific database (in this case redshift)
+        :param table_name:  table name of the stage table to work on
+        :param s3_bucket: string, name of the s3_bucket (to copy the data)
+        :param s3_path: internal path in the s3 bucket to work on
+        :param aws_key: Access key ID
+        :param aws_secret: Secret access key
+        :param region: AWS region
+        :param copy_json_option: Add extra copy options
+        """
 
         super(StageToRedshiftOperator, self).__init__(*args, **kwargs)
         self.conn_id = conn_id
@@ -28,6 +39,9 @@ class StageToRedshiftOperator(BaseOperator):
         self.copy_json_option = copy_json_option
 
     def execute(self, context):
+        """
+        Perform load operation into the stage table
+        """
         self.log.info(f"StageToRedshiftOperator-->{self.table_name} - Begin")
         # connect to Redshift
         redshift_hook = PostgresHook(postgres_conn_id=self.conn_id)
