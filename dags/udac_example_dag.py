@@ -87,8 +87,7 @@ load_songplays_table = LoadFactOperator(
     provide_context=True,
     conn_id=REDSHIFT_CONN_ID,
     table_name='songplays',
-    sql_script= SqlQueries.songplay_table_insert,
-    truncate_table = str_to_bool (TRUNCATE_TABLE)
+    sql_script= SqlQueries.songplay_table_insert
 )
 
 load_user_dimension_table = LoadDimensionOperator(
